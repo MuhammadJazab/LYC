@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="System.ComponentModel.Annotations" />
+    <None Remove="Branch\" />
+    <None Remove="Room\" />
+    <None Remove="Department\" />
+    <None Remove="Product\" />
+    <None Remove="Promotion\" />
+    <None Remove="Package\" />
+    <None Remove="Service\" />
+    <None Remove="Finance\" />
+    <None Remove="Customer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Branch\" />
+    <Folder Include="Room\" />
+    <Folder Include="Department\" />
+    <Folder Include="Product\" />
+    <Folder Include="Promotion\" />
+    <Folder Include="Package\" />
+    <Folder Include="Service\" />
+    <Folder Include="Finance\" />
+    <Folder Include="Customer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\Utilities.csproj" />
+  </ItemGroup>
+</Project>

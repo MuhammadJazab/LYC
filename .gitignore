@@ -1,0 +1,16 @@
+.DS_Store
+bin
+obj
+packages
+project-cache
+.vs/LYC/xs/UserPrefs.xml
+# *.pack
+# .LYCAdmin/client/node_modules
+/.vs/LYC/FileContentIndex
+# .LYCAdmin/client/node_modules
+/.vs/LYC/FileContentIndex
+/.vs
+.vs
+LYCPortal/Client/package-lock.json
+PublishProfiles
+*.pubxml

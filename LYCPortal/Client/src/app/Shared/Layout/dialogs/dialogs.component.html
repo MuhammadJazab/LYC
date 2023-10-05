@@ -1,0 +1,15 @@
+
+
+<div class="header">
+  <h1 mat-dialogue-title>{{title}}</h1>
+  <!--<mat-icon id="close-icon" >close</mat-icon>-->
+</div>
+
+<div mat-dialog-content class="mb-3" style="font-size:1rem">
+  {{message}}
+</div>
+
+<div mat-dialog-actions class="float-end">
+  <button mat-raised-button mat-dialog-close class="me-2 lyc-config-btn2 btn btn-secondary fw-bolder" style="border:none !important" >{{cancelButtonText}}</button>
+  <button mat-raised-button  (click)="onConfirmClick()" class="btn lyc-config-btn " [mat-dialog-close]="true">{{confirmButtonText}}</button>
+</div>

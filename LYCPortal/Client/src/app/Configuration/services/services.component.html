@@ -1,0 +1,226 @@
+<ng-container *ngIf="!new ; else show">
+  <div class="main">
+    <section class="services-configuration">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Services Configuration</p>
+
+        <div class="container mt-5">
+          <!-- Table  -->
+          <div class="col-xl-10">
+            <a class="btn lyc-config-btn float-end mb-3" (click)="new=true">New</a>
+            <table class="table lyc-table">
+              <thead class="lyc-table-head">
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Branch</th>
+                  <th>Room</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of serviceList">
+                  <td>
+                    <a (click)="updateService(item)">
+                      <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                    </a>
+                    <a (click)="deleteBranch(item.serviceId)" class="float-end">
+                      <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                  <td hidden [hidden]="true">{{item.serviceId}}</td>
+                  <td>{{item.serviceName}}</td>
+                  <td>{{item.branchName}}</td>
+                  <td>{{item.roomNames}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-container>
+
+<ng-template #show>
+  <div class="main">
+    <section class="add-new-services-config">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Services Configuration</p>
+        <div class="container">
+          <span class="fw-bolder">{{isUpdatingValue ? 'Update Service' : 'Add New Service'}}</span>
+          <form [formGroup]="appValForm" class="mt-5" autocomplete="off">
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1 mt-2" for="">Name:</label>
+              <input class="input-add-branch col-3 ms-5 form-control" formControlName="serviceName" type="text" />
+              <label *ngIf="formSubmitted && f.serviceName.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Name is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1 mt-2" for="">Branch</label>
+              <select class="form-select shadow-sm bg-white input-add-branch col-3 ms-5 form-control fw-normal"
+                formControlName="branchId" (change)="getBranchFacilitiesList($event)">
+                <option selected>Select Branch</option>
+                <option *ngFor="let item of branchesList" [selected]="item.branchId == 'selectedBranch'"
+                  [value]="item.branchId">{{item.branchName}}</option>
+              </select>
+              <label *ngIf="formSubmitted && f.branchId.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Branch is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1 mt-2" for="">Facilities</label>
+              <div class="form-check mt-2 ms-4 " *ngIf="haveFacilities">
+                <div class="d-flex justify-content-between col-6" *ngFor="let fl of FacilityList">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input shadow-sm" type="checkbox" id="{{fl.roomId}}" value="{{fl.roomId}}"
+                      (change)="onFacilityListSelectionChange(fl,$event)" />
+                    <label class="form-check-label" for="inlineCheckbox1">{{fl.roomNumber}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-check col-5 mt-2 ms-4" *ngIf="!haveFacilities">
+                <p class="ms-1">No facility is registered of this branch.</p>
+              </div>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1 mt-2" for="">Status</label>
+              <select class="form-select shadow-sm bg-white input-add-branch col-3 ms-5 form-control fw-normal"
+                formControlName="serviceStatus">
+                <option *ngFor="let ss of serviceStatus" [selected]="ss.value == 'selectedServiceStatus'"
+                  [ngValue]="ss.value">
+                  {{ss.value}}</option>
+              </select>
+              <label *ngIf="formSubmitted && f.serviceStatus.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Status is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1 mt-2" for="">Cost</label>
+              <input class="input-add-branch col-3 ms-5 form-control" formControlName="serviceCost" type="number"
+                name="cost" value="" />
+              <label *ngIf="formSubmitted && f.serviceCost.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Cost is required
+              </label>
+            </div>
+          </form>
+          <div class="col-xl-8 mt-4">
+            <!-- <a href="#" class="btn lyc-config-btn ">New</a> -->
+            <!-- Services Configurations Modal  -->
+            <!-- Button trigger modal -->
+            <button type="button" class="btn lyc-config-btn float-end mb-3" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">
+              New
+            </button>
+            <!--  Modal -->
+            <form [formGroup]="appValForm" class="mt-5" autocomplete="off">
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body bg-light outline-0">
+                      <div class="row">
+                        <div class="col-6">
+                          <span class="text-secondary lyc-modal-font">Slot Start</span>
+                          <input formControlName="startingDateTime" type="time" class="form-control text-secondary" />
+                          <label *ngIf="formSubmitted && f.startingDateTime.errors?.required" for="floatingInput"
+                            class="text-danger ms-3 mt-2">
+                            *Slot Start is required
+                          </label>
+                        </div>
+                        <div class="col-6">
+                          <span class="text-secondary lyc-modal-font">Slot End</span>
+                          <input formControlName="endingDateTime" type="time" class="form-control text-secondary" />
+                          <label *ngIf="formSubmitted && f.endingDateTime.errors?.required" for="floatingInput"
+                            class="text-danger ms-3 mt-2">
+                            *Slot End is required
+                          </label>
+                        </div>
+                        <div class=" mt-3">
+                          <div class="d-flex">
+                            <div class="col-6">
+                              <span class="text-secondary lyc-modal-font w-25">Max Occupant</span>
+                              <input formControlName="maxOccupants" type="number" class="form-control text-secondary" />
+                            </div>
+                            <label *ngIf="formSubmitted && f.maxOccupants.errors?.required" for="floatingInput"
+                              class="text-danger ms-3 mt-4 col-5">
+                              *Max Occupant is required
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mt-3">
+                        <span class="text-secondary lyc-modal-font">Days</span>
+                        <!-- Checkbox Weekend  -->
+                        <div class="form-check" *ngFor="let dl of dayList">
+                          <input class="form-check-input" type="checkbox" value="{{dl.id}}"
+                            (change)="onDayListSelectionChange(dl,$event)" />
+                          <label class="form-check-label text-secondary lyc-modal-font" for="flexCheckDefault">
+                            {{dl.value}}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="ms-4 mt-5 d-flex">
+                        <button type="submit" data-bs-dismiss="modal" class="lyc-config-btn btn me-3 py-1 px-5"
+                          (click)="saveSchedule()">
+                          {{isUpdatingValue ? 'Update' : 'Save'}}
+                        </button>
+                        <button type="button" class="lyc-config-btn2 btn btn-secondary ms-3 py-1 px-5"
+                          data-bs-dismiss="modal" (click)="cancelSchedule()">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- Services Configurations Modal End -->
+            <table class="table lyc-table">
+              <thead class="lyc-table-head">
+                <tr>
+                  <th></th>
+                  <th>Slot Start</th>
+                  <th>Slot End</th>
+                  <th>Max Occupant</th>
+                  <th>Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of serviceTimeSlots">
+                  <td>
+                    <a>
+                      <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                    </a>
+                    <a class="float-end">
+                      <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                  <td>{{item.slotStart}}</td>
+                  <td>{{item.slotStart}}</td>
+                  <td>{{item.maxOccupant}}</td>
+                  <td>{{item.days}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ms-4 mt-5 d-flex">
+            <button type="submit" class="lyc-config-btn btn me-3 py-1 px-5" (click)="save()">
+              {{isUpdatingValue ? 'Update' : 'Save'}}
+            </button>
+            <button type="button" class="lyc-config-btn2 btn btn-secondary ms-3 py-1 px-5" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>

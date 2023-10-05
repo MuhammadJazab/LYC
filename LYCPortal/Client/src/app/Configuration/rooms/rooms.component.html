@@ -1,0 +1,149 @@
+<ng-container *ngIf="!new ; else show">
+  <div class="main">
+    <section class="room-configuration">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Room Configuration</p>
+
+        <div class="container mt-5">
+          <div class="col-lg-8">
+            <a class="btn lyc-config-btn float-end mb-3" (click)="new=true">New</a>
+            <table class="table lyc-table">
+              <thead class="lyc-table-head">
+                <tr>
+                  <th></th>
+                  <th>Branch No</th>
+                  <th>Room No</th>
+                  <th>Room Name</th>
+                  <th>Room Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of roomList">
+                  <td>
+                    <a (click)="updateRoom(item)">
+                      <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                    </a>
+                    <a class="float-end" (click)="deleteRoom(item.roomId)">
+                      <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                  <td>{{item.branchId}}</td>
+                  <td>{{item.roomNumber}}</td>
+                  <td>{{item.roomName}}</td>
+                  <td>{{item.roomType}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-container>
+
+<ng-template #show>
+  <div class="main">
+    <section class="add-new-room-config">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Room Configuration</p>
+
+        <div class="container">
+          <span class="fw-bolder">{{isUpdatingValue ? 'Update Room' : 'Add New Room'}}</span>
+          <form [formGroup]="appValForm" class="mt-5" autocomplete="off">
+            <div class="form-group d-flex mt-4">
+              <label class="label-add-branch col-1 mt-2" for="">Branch Name</label>
+
+              <select class="form-select shadow-sm bg-white input-add-branch col-3 form-control fw-normal"
+                formControlName="branchId">
+                <option *ngFor="let branch of branchesList" [ngValue]="branch.branchId">
+                  {{branch.branchName}}
+                </option>
+              </select>
+              <label *ngIf="formSubmitted && f.branchId.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Branch Name is required
+              </label>
+
+            </div>
+
+            <div class="form-group d-flex mt-4">
+              <label class="label-add-branch col-1 mt-1" for="">Room Type</label>
+              <div>
+                <div class="form-check d-flex">
+                  <div class="form-check">
+                    <input class="form-check-input me-2" type="radio" name="roomTypeCheckboc"
+                      [checked]="isAccomodationSelected" id="accomodation" (change)="onChangeRadioButton(true)" />
+                    <label class="form-check-label" for="ttdi">
+                      Accomodation
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input ms-3" type="radio" name="roomTypeCheckboc" id="facility"
+                      (change)="onChangeRadioButton(false)" [checked]="!isAccomodationSelected" />
+                    <label class="form-check-label ms-2" for="facility">
+                      Facility
+                    </label>
+                  </div>
+                </div>
+                <div class="d-flex" *ngIf="isAccomodationSelected">
+                  <select class="form-select shadow-sm bg-white input-add-branch col-3 form-control fw-normal" id=""
+                    aria-label="" formControlName="roomType">
+                    <option *ngFor="let rt of roomType" [selected]="rt.value == 'selectedRoomType'"
+                      [ngValue]="rt.value">
+                      {{rt.value}}
+                    </option>
+                  </select>
+                  <label *ngIf="formSubmitted && f.roomType.errors?.required" for="floatingInput"
+                    class="text-danger ms-3 mt-2">
+                    *Room Type is required
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group d-flex mt-4">
+              <label class="label-add-branch col-1 mt-2" for="">Room No.</label>
+              <input class="input-add-branch col-3 form-control" type="number" name="roomNo" value=""
+                formControlName="roomNumber" />
+              <label *ngIf="formSubmitted && f.roomNumber.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Room No. is required
+              </label>
+            </div>
+            <div class="form-group d-flex mt-4">
+              <label class="label-add-branch col-1 mt-2" for="">Room Name</label>
+              <input class="input-add-branch col-3 form-control" type="text" name="roomName" value=""
+                formControlName="roomName" />
+              <label *ngIf="formSubmitted && f.roomName.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Room Name is required
+              </label>
+            </div>
+            <div class="form-group d-flex mt-4">
+              <label class="label-add-branch col-1 mt-2" for="">Rooms Status</label>
+
+              <select class="form-select shadow-sm bg-white input-add-branch col-3 form-control fw-normal" id=""
+                aria-label="" formControlName="roomStatus">
+                <option selected disabled>Rooms Status</option>
+                <option *ngFor="let rs of roomStatus" [ngValue]="rs.id" [selected]="rs.id == selectedRoomStatus">
+                  {{rs.value}}
+                </option>
+              </select>
+              <label *ngIf="formSubmitted && f.roomStatus.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Rooms Status is required
+              </label>
+            </div>
+          </form>
+          <div class="ms-4 mt-5 d-flex">
+            <button type="button" class="lyc-config-btn btn mx-3 py-1 px-5" (click)="save()">
+              {{isUpdatingValue ? 'Update' : 'Save'}}
+            </button>
+            <button type="button" class="lyc-config-btn2 btn btn-secondary mx-3 py-1 px-5" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>

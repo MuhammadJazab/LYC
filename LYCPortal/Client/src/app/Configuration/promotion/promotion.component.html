@@ -1,0 +1,159 @@
+<div class="main">
+  <section class="promotion-configuration">
+    <div class="mx-3 mt-3">
+      <p class="h5 lyc-table-heading-font ms-2">Promotion</p>
+
+      <div class="container mt-5">
+        <!-- Table  -->
+        <div class="col-12">
+          <button type="button" class="btn lyc-config-btn float-end mb-3" (click)="open(content)">
+            New
+          </button>
+          <!--  Modal -->
+          <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true"> -->
+          <ng-template #content let-modal>
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                </div>
+                <div class="modal-body bg-light outline-0">
+                  <form [formGroup]="appValForm" autocomplete="off">
+                    <div class="row">
+                      <div class="col-12">
+                        <span class="text-secondary lyc-modal-font">Promotion Name</span>
+                        <input type="text" class="form-control w-75 text-secondary mt-2" name="promotionName" value=""
+                          formControlName="promotionName" />
+                        <label *ngIf="formSubmitted && f.promotionName.errors?.required" for="floatingInput"
+                          class="text-danger ms-2 mt-2">
+                          *Promotion Name is required
+                        </label>
+                      </div>
+                      <div class="col-12 mt-4">
+                        <span class="text-secondary lyc-modal-font">Promotion For</span>
+                        <div class="col-6 mt-2 d-flex justify-content-evenly">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="promotionForCheckbox" id="product"
+                              [checked]="isProductSelected" (change)="onChangeRadioButton(true)" />
+                            <label class="form-check-label lyc-modal-font text-secondary" for="product">
+                              Product
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="promotionForCheckbox" id="services"
+                              [checked]="!isProductSelected" (change)="onChangeRadioButton(false)" />
+                            <label class="form-check-label lyc-modal-font text-secondary" for="services">
+                              Services
+                            </label>
+                          </div>
+                        </div>
+                        <div class="" *ngIf="isProductSelected">
+                          <select class="form-select shadow-sm bg-white input-add-branch col-3 form-control fw-normal"
+                            id="" aria-label="" formControlName="productId">
+                            <option selected>
+                              Select Product
+                            </option>
+                            <option *ngFor="let pl of productsList" [ngValue]="pl.productId">
+                              {{pl.productName}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="" *ngIf="!isProductSelected">
+                          <select class="form-select shadow-sm bg-white input-add-branch col-3 form-control fw-normal"
+                            id="" aria-label="" formControlName="serviceId">
+                            <option selected>
+                              Select Service
+                            </option>
+                            <option *ngFor="let sl of serviceList" [ngValue]="sl.serviceId">
+                              {{sl.serviceName}}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 mt-4">
+                        <span class="text-secondary lyc-modal-font">Discount Type</span>
+                        <div class="col-6 mt-2 ms-2 d-flex justify-content-evenly">
+                          <div class="form-check ms-1">
+                            <input class="form-check-input" type="radio" name="discountType" id="percent"
+                              [checked]="isPercentSelected" (change)="onChangeRadioButton(false)" />
+                            <label class="form-check-label lyc-modal-font text-secondary" for="percent">
+                              Percent
+                            </label>
+                          </div>
+                          <div class="form-check ms-3">
+                            <input class="form-check-input" type="radio" name="discountType" id="amount"
+                              [checked]="!isPercentSelected" (change)="onChangeDiscountType(true)" />
+                            <label class="form-check-label lyc-modal-font text-secondary" for="amount">
+                              Fix Amount
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 mt-4">
+                        <span class="text-secondary lyc-modal-font">Discount Amount</span>
+                        <input type="number" class="form-control w-75 text-secondary mt-2" name="discount" value=""
+                          formControlName="discount" />
+                        <label *ngIf="formSubmitted && f.discount.errors?.required" for="floatingInput"
+                          class="text-danger ms-2 mt-2">
+                          *Discount Amount is required
+                        </label>
+                      </div>
+                      <div class="col-12 mt-4">
+                        <span class="text-secondary lyc-modal-font">Expiry Date</span>
+                        <input type="date" class="form-control w-75 text-secondary mt-2" name="expiryDate" value=""
+                          formControlName="expiryDate" />
+                        <label *ngIf="formSubmitted && f.expiryDate.errors?.required" for="floatingInput"
+                          class="text-danger ms-2 mt-2">
+                          *Expiry Date is required
+                        </label>
+                      </div>
+
+                      <!-- Footer  -->
+                      <div class="col-12 mt-4">
+                        <button type="submit" class="btn lyc-config-btn me-2" (click)="save()">
+                          {{isUpdatingValue ? 'Update' : 'Save'}}
+                        </button>
+
+                        <button type="button" class="btn lyc-config-btn2 bg-dark" (click)="cancel()">
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <!-- </div> -->
+          <table class="table lyc-table">
+            <thead class="lyc-table-head">
+              <tr>
+                <th></th>
+                <th>Promotion Name</th>
+                <th>Promotion Type</th>
+                <th>Discount Amount</th>
+                <th>Expiry Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of promotionsList">
+                <td>
+                  <a (click)="updatePromotion(item, content)">
+                    <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                  </a>
+                  <a class="float-end" (click)="deletePromotion(item.promotionId)">
+                    <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                  </a>
+                </td>
+                <td>{{item.promotionName}}</td>
+                <td>{{item.discountType}}</td>
+                <td>{{item.discount}}</td>
+                <td>{{item.expiryDate | date:'dd MMM yyyy'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

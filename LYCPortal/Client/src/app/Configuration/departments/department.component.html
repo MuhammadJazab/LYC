@@ -1,0 +1,68 @@
+<div class="main">
+    <section class="add-staff-new-roles-config">
+        <div class="mx-3 mt-3">
+            <p class="h5 lyc-table-heading-font ms-2">Department Configuration</p>
+            <div class="container">
+                <span class="fw-bolder">{{isUpdatingValue ? 'Edit Department' : 'Add New Department'}}</span>
+                <form class="mt-5" [formGroup]="departmentForm" autocomplete="off">
+                  <div class="row">
+                    <div class="form-group col-12">
+                      <div class="d-flex">
+                        <div>
+                          <label class="label-add-branch  mt-2" for="">Department Name</label>
+                          <input class="input-add-branch form-control" type="hidden" [hidden]="true"
+                                 formControlName="departmentId" value="" />
+                        </div>
+
+                        <div>
+                          <input class="input-add-branch form-control" type="text" formControlName="departmentName"
+                                 value="" />
+                          <label *ngIf="departmentFormSubmitted && f.departmentName.errors?.required" for="floatingInput" class="text-danger mt-3 ms-3">
+                            *Department Name is required
+                          </label>
+                        </div>
+                        <div class=" ms-3">
+                          <button type="button" class="lyc-config-btn btn mt-1" (click)="saveDepartment()">
+                            {{isUpdatingValue ? 'Update' : 'Save'}}
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+                   
+                  </div>
+                </form>
+
+                <div class="container mt-5">
+                    <!-- Table  -->
+                    <div class="col-xl-8">
+                        <table class="table lyc-table">
+                            <thead class="lyc-table-head">
+                                <tr>
+                                    <th></th>
+                                    <th>Department ID</th>
+                                    <th>Department Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of departmentList">
+                                    <td>
+                                        <a (click)="updateDepartment(item.departmentID)">
+                                            <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="float-end" (click)="deleteDepartment(item.departmentID)">
+                                            <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{item.departmentID}}</td>
+                                    <td>{{item.departmentName}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

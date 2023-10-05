@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Client\src\app\Shared\ApiUrls\**" />
+    <Content Remove="Client\src\app\Shared\ApiUrls\**" />
+    <EmbeddedResource Remove="Client\src\app\Shared\ApiUrls\**" />
+    <None Remove="Client\src\app\Shared\ApiUrls\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Client\src\app\Shared\ApiRoutes\ApiRoutes.ts" />
+    <None Remove="Client\src\app\Shared\Common\Common.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Client\src\app\Shared\Layout\" />
+    <Folder Include="Client\src\app\Shared\Enums\" />
+    <Folder Include="Client\src\app\Shared\Gaurds\" />
+    <Folder Include="Client\src\app\Shared\Interfaces\" />
+    <Folder Include="Client\src\app\Shared\Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\src\app\Shared\ApiRoutes\ApiRoutes.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Client\src\app\Shared\Common\Common.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-5.json" /></VisualStudio></ProjectExtensions>
+
+
+</Project>

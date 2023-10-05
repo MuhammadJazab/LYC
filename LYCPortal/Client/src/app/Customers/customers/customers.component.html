@@ -1,0 +1,228 @@
+<ng-container *ngIf="!new ; else show">
+  <div class="main">
+    <section class="customers">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Customers</p>
+
+        <div class="container">
+          <div class="col-lg-8">
+            <select class="form-select shadow-sm bg-white input-add-branch form-control fw-normal w-25" id=""
+              formControlName="branchId" aria-label="">
+              <option selected>Select Branch</option>
+              <option *ngFor="let br of branchesList">
+                {{br.branchName}}
+              </option>
+            </select>
+          </div>
+          <!-- Table  -->
+          <div class="col-xl-8">
+            <a class="btn lyc-config-btn float-end mb-3" (click)="new=true">New</a>
+            <table class="table lyc-table">
+              <thead class="lyc-table-head">
+                <tr>
+                  <th></th>
+                  <th>Customer Name</th>
+                  <th>Contact No</th>
+                  <th>Email</th>
+                  <th>Branch</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngfor="let item of customersList">
+                  <td>
+                    <a href="edit/customer-info.html">
+                      <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                    </a>
+                    <a class="float-end">
+                      <i class="fa fa-minus-circle anim" aria-hidden="true"
+                        (click)="deleteCustomer(item.customerId)"></i>
+                    </a>
+                  </td>
+                  <td>{{item.CustomerName}}</td>
+                  <td>{{item.CustomerContact}}</td>
+                  <td>{{item.CustomerEmail}}</td>
+                  <td>{{item.branch}}</td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</ng-container>
+
+<ng-template #show>
+  <div class="main">
+
+    <section class="add-new-customer">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Customers</p>
+        <span class="fw-bolder ms-3">Add New Customer</span>
+        <div class="container mt-4">
+          <form autocomplete="off">
+            <div class="col-lg-8 d-flex">
+              <label class="label-add-branch mt-2 me-1" for="">Branch</label>
+              <select class="form-select shadow-sm bg-white input-add-branch form-control fw-normal w-25 " id=""
+                formControlName="branchId" aria-label="">
+                <option selected>Select Branch</option>
+                <option *ngFor="let br of branchesList">
+                  {{br.branchName}}
+                </option>
+              </select>
+              <label *ngIf="formSubmitted && f.branchId.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Branch is required
+              </label>
+            </div>
+            <div class="row">
+              <div class="lyc-customer-data mt-3 me-3 col-lg-4">
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2 me-3" for="">Full Name</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="customerName"
+                      formControlName="customerName" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.customerName.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *Full Name is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2 me-3" for="">IC/Passport</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="passport"
+                      formControlName="passport" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.passport.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *IC/Passport is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2 me-3" for="">DOB</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="customerDob"
+                      formControlName="customerDob" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.customerDob.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *DOB is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2 me-3" for="">Contact</label>
+                    <input class="input-add-branch form-control w-100" type="number" name="customerContact"
+                      formControlName="customerContact" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.customerContact.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *Contact is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2 me-3" for="">Blood Type</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="bloodType"
+                      formControlName="bloodType" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.bloodType.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *Blood Type is required
+                  </label>
+                </div>
+
+              </div>
+              <div class="lyc-customer-data mt-3 ms-2 col-lg-4">
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2" for="">Email</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="customerEmail"
+                      formControlName="customerEmail" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.customerEmail.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *Email is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2" for="">Address</label>
+                    <textarea class="input-add-branch form-control w-100" row="4" col="30" type="text"
+                      formControlName="customerAddress" name="customerAddress" value=""
+                      style="line-height: 1.4; height:70px;"></textarea>
+                  </div>
+                  <label *ngIf="formSubmitted && f.customerEmail.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *Address is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2" for="">Postcode</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="postCode"
+                      formControlName="postCode" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.postCode.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *Postcode is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2" for="">State</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="state" formControlName="state"
+                      value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.state.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *State is required
+                  </label>
+                </div>
+                <div class="form-group mt-2">
+                  <div class="d-flex">
+                    <label class="label-add-branch mt-2" for="">Country</label>
+                    <input class="input-add-branch form-control w-100" type="text" name="country"
+                      formControlName="country" value="" />
+                  </div>
+                  <label *ngIf="formSubmitted && f.country.errors?.required" for="floatingInput"
+                    class="text-danger ms-5 mt-2">
+                    *Country is required
+                  </label>
+                </div>
+              </div>
+              <div class="lyc-customer-data mt-3 ms-2 col-lg-3">
+                <div class="d-flex">
+                  <div>
+                    <img class="customer-image" [src]="imageSrc" alt="image" />
+                  </div>
+                  <div class="upload-btn">
+                    <label for="image-upload" role="button">
+                      <i class="fa fa-upload" aria-hidden="true"></i>
+                    </label>
+                    <input type="file" class="visually-hidden" id="image-upload"
+                      accept="image/png, image/gif, image/jpeg" (change)="onFileChange($event) "
+                      (click)="uploadFile()" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ms-4 mt-5 d-flex">
+              <button type="button" class="lyc-config-btn btn me-3 py-1 px-5" (click)="save()">
+                Save
+              </button>
+              <button type="button" class="btn btn-secondary lyc-config-btn2 ms-3 py-1 px-5" (click)="cancel()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- Body End-->
+  </div>
+</ng-template>

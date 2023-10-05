@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "IISExpress": {
+      "applicationUrl": "http://localhost:52416"
+    }
+  },
+  "profiles": {
+    "IISExpress": {
+      "commandName": "IISExpress",
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:52416",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "LYC": {
+      "commandName": "Project",
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:52416",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

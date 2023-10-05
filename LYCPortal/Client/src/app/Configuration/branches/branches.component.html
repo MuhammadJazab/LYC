@@ -1,0 +1,144 @@
+<ng-container *ngIf="!new ; else show">
+  <div class="main">
+    <section class="branches-configuration">
+      <div class="mx-3 mt-3">
+        <!-- Branches Configuration -->
+        <p class="h5 lyc-table-heading-font ms-2">Branches Configuration</p>
+
+        <div class="container mt-5">
+          <!-- Table  -->
+          <div class="col-xl-8">
+            <div class="alert alert-danger" *ngif="showDeletedMessage">
+              Deleted Successfully
+            </div>
+            <a class="btn lyc-config-btn float-end mb-3" (click)="new=true">New</a>
+            <table class="table lyc-table">
+              <thead class="lyc-table-head">
+                <tr>
+                  <th></th>
+                  <th>Branch No</th>
+                  <th>Branch Name</th>
+                  <th>Person In Charge</th>
+                  <th>Tel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of branchesList">
+                  <td>
+                    <a (click)="updateBranch(item)">
+                      <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                    </a>
+                    <a class="float-end" (click)="deleteBranch(item.registrationNumber)">
+                      <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                  <td>{{item.registrationNumber}}</td>
+                  <td>{{item.branchName}}</td>
+                  <td>{{item.personInCharge}}</td>
+                  <td>{{item.telephoneNumber}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-container>
+
+
+<ng-template #show>
+  <div class="main">
+    <section class="add-branches-configuration">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Branches Configuration</p>
+        <div class="container mt-4">
+          <form [formGroup]="appValForm" autocomplete="off">
+            <div class="form-group mt-2 d-flex mt-2">
+              <label class="label-add-branch col-1" for="">Branch Number</label>
+              <input class="input-add-branch col-3 ms-3 m-control" type="text" name="registration"
+                [readonly]="isUpdatingValue" formControlName="registrationNumber" value="" />
+              <label *ngIf="formSubmitted && f.registrationNumber.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Registration No.is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1  mt-2" for="">Branch Name</label>
+              <input class="input-add-branch col-3 ms-3 form-control" type="text" formControlName="branchName"
+                name="branchName" value="" />
+              <label *ngIf="formSubmitted && f.branchName.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Branch Name is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1  mt-2" for="">Person In Charge</label>
+              <input class="input-add-branch col-3 ms-3 form-control" type="text" formControlName="personInCharge"
+                name="personInCharge" value="" />
+              <label *ngIf="formSubmitted && f.personInCharge.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Person In Charge is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1  mt-2" for="">Address</label>
+              <textarea class="input-add-branch col-3 ms-3 form-control" row="4" col="30" type="text"
+                formControlName="address" name="address" value="" style="line-height: 1.4; height:70px;"></textarea>
+              <label *ngIf="formSubmitted && f.address.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Address is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1  mt-2" for="">Tel.</label>
+              <input class="input-add-branch col-3 ms-3 form-control" type="text" formControlName="telephoneNumber"
+                name="Tel" value="" />
+              <label *ngIf="formSubmitted && f.telephoneNumber.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Telephone No. is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1  mt-2" for="">CS Tel.</label>
+              <input class="input-add-branch col-3 ms-3 form-control" type="text" formControlName="cSTelNumber"
+                name="CsTel" value="" />
+              <label *ngIf="formSubmitted && f.cSTelNumber.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *CS Telephone No. is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1  mt-2" for="">Email</label>
+              <input class="input-add-branch col-3 ms-3 form-control" type="email" formControlName="email" name="email"
+                value="" />
+              <label *ngIf="formSubmitted && f.email.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Email is required
+              </label>
+            </div>
+            <div class="form-group mt-2 d-flex">
+              <label class="label-add-branch col-1  mt-2" for="">Website</label>
+              <input class="input-add-branch col-3 ms-3 form-control" type="url" formControlName="webSite"
+                name="website" value="" />
+              <label *ngIf="formSubmitted && f.webSite.errors?.required" for="floatingInput"
+                class="text-danger ms-3 mt-2">
+                *Website is required
+              </label>
+            </div>
+          </form>
+
+          <div class="ms-4 mt-5 d-flex">
+            <button type="button" class="lyc-config-btn btn me-3 py-1 px-5" (click)="save()">
+              {{isUpdatingValue ? 'Update' : 'Save'}}
+            </button>
+            <button type="button" class="btn btn-secondary lyc-config-btn2 ms-3 py-1 px-5" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>

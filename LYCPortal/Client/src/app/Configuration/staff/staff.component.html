@@ -1,0 +1,271 @@
+<ng-template [ngIf]="type=='new'">
+  <div class="main">
+    <section class="staff-configuration">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Staff Configuration</p>
+        <div class="container mt-5">
+          <div class="col-lg-3">
+            <p class="lyc-p-font-config float-start mb-3">Roles</p>
+            <a (click)="role()" class="btn lyc-config-btn float-end mb-3">New</a>
+            <table class="table lyc-table">
+              <thead class="lyc-table-head">
+                <tr>
+                  <th></th>
+                  <th>Role Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of rolesList">
+                  <td>
+                    <a (click)="updateRole(item.id)">
+                      <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                    </a>
+                    <a (click)="deleteRole(item.id)" class="float-end">
+                      <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                  <td>{{item.name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="container mt-5">
+          <div class="col-lg-8">
+            <p class="lyc-p-font-config float-start mb-3">Staff</p>
+            <a class="btn lyc-config-btn float-end mb-3" (click)="staff()">New</a>
+            <table class="table lyc-table">
+              <thead class="lyc-table-head">
+                <tr>
+                  <th></th>
+                  <th>Staff No</th>
+                  <th>Staff Name</th>
+                  <th>Department</th>
+                  <th>Roles</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of staffList">
+                  <td>
+                    <a (click)="updateStaff(item)">
+                      <i class="fa fa-pencil anim" aria-hidden="true"></i>
+                    </a>
+                    <a (click)="deleteStaff(item.userId)" class="float-end">
+                      <i class="fa fa-minus-circle anim" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                  <td hidden [hidden]="true">{{item.userId}}</td>
+                  <td>S00{{item.staffId}}</td>
+                  <td>{{item.userName}}</td>
+                  <td>{{item.department}}</td>
+                  <td>{{item.userRole}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>
+<ng-template [ngIf]="type=='role'">
+  <div class="main">
+    <section class="add-staff-new-roles-config">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Staff Configuration</p>
+        <div class="container">
+          <span class="fw-bolder">{{isUpdatingValue ? 'Update Role' : 'Add New Role'}}</span>
+          <form class="mt-5" [formGroup]="roleForm" autocomplete="off">
+            <div class="form-group d-flex my-4">
+              <label class="label-add-branch col-1 mt-2" for="">Role Name</label>
+              <input class="input-add-branch col-3 form-control" type="hidden" [hidden]="true" formControlName="id"
+                value="" />
+              <input class="input-add-branch col-3 form-control" type="text" formControlName="roleName" value="" />
+              <label *ngIf="roleFormSubmitted && r.roleName.errors?.required" for="floatingInput"
+                class="text-danger mt-2 ms-3">
+                *Role Name is required
+              </label>
+            </div>
+            <div class="form-group d-flex my-4">
+              <label class="label-add-branch col-1" for="">Permissions</label>
+              <input class="form-check-input shadow-sm col-3" type="checkbox" id="inlineCheckbox1" value="option1"
+                checked />
+            </div>
+          </form>
+
+          <div class="m-4">
+            <table class="table table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Add</th>
+                  <th scope="col">Edit</th>
+                  <th scope="col">Delete</th>
+                  <th scope="col">View</th>
+                  <th scope="col">Mobile</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th class="table-head" scope="row">Branch Configuration</th>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                </tr>
+                <tr>
+                  <th class="table-head" scope="row">Staff Configuration</th>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                </tr>
+                <tr>
+                  <th class="table-head" scope="row">Customer</th>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                  <td>
+                    <input class="form-check-input shadow-sm" type="checkbox" id="inlineCheckbox1" value="option1"
+                      checked />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ms-3 mt-5 d-flex">
+            <button type="button" class="lyc-config-btn btn mx-3 py-1 px-5" (click)="saveRole()">
+              {{isUpdatingValue ? 'Update' : 'Save'}}
+            </button>
+            <button type="button" class="lyc-config-btn2 btn btn-secondary mx-3 py-1 px-5" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>
+<ng-template [ngIf]="type=='staff'">
+  <div class="main">
+    <section class="add-staff-new-staff-config">
+      <div class="mx-3 mt-3">
+        <p class="h5 lyc-table-heading-font ms-2">Staff Configuration</p>
+        <div class="container">
+          <h3 class="ms-3 fw-bolder">{{isUpdatingValue ? 'Update Staff' : 'Add New Staff'}}</h3>
+          <form class="" [formGroup]="staffForm" autocomplete="off">
+            <div class="form-group d-flex">
+              <label class="label-add-branch col-1 mt-3" for="">Staff Name</label>
+              <input class="input-add-branch col-3 m-2 form-control" type="text" formControlName="userName"
+                name="staffName" value="" />
+              <label *ngIf="staffFormSubmitted && s.userName.errors?.required" for="floatingInput"
+                class="text-danger mt-3 ms-3">*Staff Name is required</label>
+            </div>
+            <div class="form-group d-flex">
+              <label class="label-add-branch col-1 mt-3" for="">Department</label>
+              <select class="form-select shadow-sm bg-white input-add-branch col-3 m-2 form-control fw-normal" id=""
+                formControlName="department" aria-label="">
+                <option *ngFor="let item of departmentList" [ngValue]="item.departmentName">
+                  {{item.departmentName}}
+                </option>
+              </select>
+              <label *ngIf="staffFormSubmitted && s.department.errors?.required" for="floatingInput"
+                class="text-danger mt-3 ms-3">*Department is required</label>
+            </div>
+            <div class="form-group d-flex">
+              <label class="label-add-branch col-1 mt-3" for="">Email</label>
+              <input class="input-add-branch col-3 m-2 form-control" type="email" formControlName="email" name="email"
+                value="" />
+              <label *ngIf="staffFormSubmitted && s.email.errors?.required" for="floatingInput"
+                class="text-danger mt-3 ms-3">*Email is required</label>
+
+            </div>
+            <div class="form-group d-flex">
+              <label class="label-add-branch col-1 mt-3" for="" [hidden]="isUpdatingValue">Staff Password</label>
+              <input class="input-add-branch col-3 m-2 form-control" type="password" formControlName="password"
+                [hidden]="isUpdatingValue" name="staffPassword" value="" />
+              <label *ngIf="staffFormSubmitted && s.password.errors?.required" for="floatingInput"
+                class="text-danger mt-3 ms-3">*Staff Password is required</label>
+
+            </div>
+            <div class="form-group d-flex">
+              <label class="label-add-branch col-1 mt-3" for="">Contact No</label>
+              <input class="input-add-branch col-3 m-2 form-control" type="text" formControlName="contact" name="Tel"
+                value="" />
+              <label *ngIf="staffFormSubmitted && s.contact.errors?.required" for="floatingInput"
+                class="text-danger mt-3 ms-3">*Contact No is required</label>
+            </div>
+
+            <div class="form-group d-flex">
+              <label class="label-add-branch col-1 mt-3" for="">Role</label>
+
+              <select class="form-select shadow-sm bg-white input-add-branch col-3 m-2 form-control fw-normal"
+                formControlName="userRole" aria-label="">
+                <option *ngFor="let role of rolesList" [ngValue]="role.name">{{role.name}}</option>
+              </select>
+              <label *ngIf="staffFormSubmitted && s.userRole.errors?.required" for="floatingInput"
+                class="text-danger mt-3 ms-3">*Role is required</label>
+            </div>
+            <div class="form-group d-flex">
+              <label class="label-add-branch col-1 mt-2" for="">Branches</label>
+              <div class="form-check col-6 m-2 d-flex">
+                <div class="form-check form-check-inline" *ngFor="let branch of branchesList">
+                  <input class="form-check-input shadow-sm" type="checkbox"
+                    (change)="onBranchListSelectionChange(branch,$event)" value="{{branch.branchName}}" required />
+                  {{branch.branchName}}
+                </div>
+
+
+              </div>
+            </div>
+          </form>
+          <div class="ms-3 mt-3 d-flex">
+            <button type="button" class="btn lyc-config-btn mx-3 py-1 px-5" (click)="saveStaff()">
+              {{isUpdatingValue ? 'Update' : 'Save'}}
+            </button>
+            <button type="button" class="lyc-config-btn2 btn btn-secondary mx-3 py-1 px-5" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>
